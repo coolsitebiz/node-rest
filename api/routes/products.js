@@ -64,7 +64,6 @@ router.post('/', (req, res, next) => {
     );
 });
 
-//left off at 17:00
 router.get('/:productId', (req, res, next) => {
         const id = req.params.productId;
         Product.findById(id)
@@ -72,7 +71,7 @@ router.get('/:productId', (req, res, next) => {
             .exec()
             .then(
             doc => {
-                console.log("From database", doc);
+                if(!doc) { console.log("NOT FOUND!!!")};
                 if (doc) {
                     res.status(200).json({
                         product: doc,
@@ -83,13 +82,14 @@ router.get('/:productId', (req, res, next) => {
                         }
                     });
                 } else {
+                    console.log("FROM PRODUCT GET: NOT FOUND");
                     res.status(404).json({
                         message: "ID not found"
-                    })
+                    });
                 }    
             })
             .catch(err => {
-                console.log(err);
+                console.log("ERROR", err);
                 res.status(500).json({error: err});
             });
 });
