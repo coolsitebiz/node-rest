@@ -7,10 +7,12 @@ const mongoose = require('mongoose');
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 const nodemon = require('./nodemon.json');
+const userRoutes = require('./api/routes/user');
 
 mongoose.connect('mongodb+srv://nelsonbm:' + process.env.MONGO_PW + '@cluster0-g2ebr.mongodb.net/test?retryWrites=true&w=majority', 
 {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true
 });
 
 app.use(morgan('dev'));
@@ -31,6 +33,7 @@ app.use((req, res, next) => {
 
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/user', userRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
